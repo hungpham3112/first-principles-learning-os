@@ -59,6 +59,16 @@ test("leaves messages unchanged without a user message containing parts", async 
   assert.deepEqual(outputs, before)
 })
 
+test("leaves a user message without parts unchanged", async () => {
+  const hooks = await createPlugin()
+  const output = { messages: [{ info: { role: "user" } }] }
+  const before = structuredClone(output.messages)
+
+  await hooks["experimental.chat.messages.transform"]({}, output)
+
+  assert.deepEqual(output.messages, before)
+})
+
 test("leaves messages unchanged when the skill cannot be read", async () => {
   const hooks = await createPlugin()
   const output = {

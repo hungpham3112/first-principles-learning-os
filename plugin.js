@@ -37,7 +37,7 @@ export default async function firstPrinciplesPlugin() {
       if (!bootstrap) return
 
       const firstUser = output.messages.find((message) => message.info.role === "user")
-      if (!firstUser?.parts.length) return
+      if (!firstUser?.parts?.length) return
       if (firstUser.parts.some((part) => part.type === "text" && part.text.includes(marker))) return
 
       firstUser.parts.unshift({ ...firstUser.parts[0], type: "text", text: bootstrap })
