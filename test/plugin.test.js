@@ -44,6 +44,26 @@ test("injects the protocol before the first user message once", async () => {
   assert.doesNotMatch(parts[0].text, /name: first-principles-learning-os/)
 })
 
+test("injects the protocol as a visible part", async () => {
+  const hooks = await createPlugin()
+  const output = {
+    messages: [
+      {
+        info: { role: "user" },
+        parts: [{ type: "text", text: "hello", ignored: true }],
+      },
+    ],
+  }
+
+  await hooks["experimental.chat.messages.transform"]({}, output)
+
+  const bootstrap = output.messages[0].parts[0]
+  assert.equal(bootstrap.ignored, false)
+  assert.match(bootstrap.text, new RegExp(marker))
+  assert.match(bootstrap.text, /# First-Principles Learning OS/)
+  assert.match(bootstrap.text, /No consequential answer over consequential unknowns/)
+})
+
 test("leaves messages unchanged without a user message containing parts", async () => {
   const hooks = await createPlugin()
   const outputs = [

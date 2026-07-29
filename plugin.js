@@ -40,7 +40,7 @@ export default async function firstPrinciplesPlugin() {
       if (!firstUser?.parts?.length) return
       if (firstUser.parts.some((part) => part.type === "text" && part.text.includes(marker))) return
 
-      firstUser.parts.unshift({ ...firstUser.parts[0], type: "text", text: bootstrap })
+      firstUser.parts.unshift({ ...firstUser.parts[0], type: "text", text: bootstrap, ignored: false })
     },
   }
 }
