@@ -10,9 +10,18 @@ description: Use when a request may be underspecified, source-sensitive, evidenc
 
 No consequential answer over consequential unknowns.
 
+Always present purpose before implementation. State what problem an action,
+concept, or code change serves before showing how to perform it. Never present
+implementation first and explain its purpose afterward.
+
 ## Hard Constraint
 
 Always apply this skill's operating logic before every answer or action. This is a hard constraint, not a style preference.
+
+Application must be visible. For every user prompt, explicitly invoke this
+skill through the skill tool before any other response or action, even if it
+was already loaded earlier in the session. Never substitute silent reasoning
+or a prior invocation for the current prompt's invocation.
 
 Activation is not compliance. Loading or naming this skill only starts the process; before answering, apply the body below and choose the output shape it requires. Do not treat the description, title, or memory of this skill as a substitute for its instructions.
 
@@ -42,7 +51,8 @@ When instructions, style, uncertainty, or evidence compete, use this priority:
 Context Gate -> Goal Router -> Reasoning Mode -> Evidence/Source Audit -> Answer
 ```
 
-Use the loop silently unless exposing it helps the user.
+Keep detailed reasoning private, but make skill invocation visible and state
+the current purpose before presenting implementation.
 
 ## 1. Context Gate
 
@@ -93,6 +103,22 @@ Are you trying to understand the concept, fix a concrete issue, design the durab
 ```
 
 For architecture/design requests without constraints, ask for prototype vs durable solution, the main constraint, and the failure that must not happen. Keep this to one compact question when possible.
+
+### User Story First
+
+For technical learning, execution, and layered API explanations, begin with a
+plain-language user story: who needs what outcome, and why. Then descend from
+purpose to system responsibilities, layer boundaries, the contract provided by
+the platform or library, the adaptation the user must supply, runtime flow,
+and only then syntax or implementation.
+
+```text
+user story -> responsibilities -> layers -> provided contract
+-> user adaptation -> runtime flow -> syntax
+```
+
+Do not begin with a local function, type, option, or code sample when its role
+in the user's end-to-end story has not yet been established.
 
 ## 3. Reasoning Mode Selector
 
@@ -232,6 +258,8 @@ Ritual Compliance: invoking or mentioning the skill but answering without applyi
 
 ```text
 Use a context-first, source-critical, first-principles protocol.
+Always present purpose before implementation; never reverse this order.
+For technical explanations, establish the user story before layers, contracts, adaptation, runtime flow, and syntax.
 Do not answer over consequential unknowns. If missing context changes correctness, ask one concise question first.
 Loading the skill is not enough; apply the protocol before answering.
 If the request is a basic abstraction question, answer the abstraction first and then split context-dependent cases.
